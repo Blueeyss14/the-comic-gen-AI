@@ -1,10 +1,15 @@
 @import "tailwindcss";
 
-* {
-  padding: 0;
-  margin: 0;
+@theme {
+  --color-grayy: #313A3C;
+  --color-whitee: #e4e4e4;
+  --color-white-icon : brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(7500%) hue-rotate(337deg) brightness(125%) contrast(106%);
 }
 
-@theme {
-  --color-grayy: #6b6e78;
+.white-icon-filter {
+  filter: var(--color-white-icon);
 }
+
+/* sd {
+  color: #e4e4e4;
+} */
