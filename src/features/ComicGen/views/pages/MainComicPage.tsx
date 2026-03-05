@@ -5,14 +5,24 @@ import ComicMode from "../components/ComicMode";
 import ArtStyle from "../components/Artstyle";
 import Panels from "../components/Panels";
 import { Asset } from "../../../../res/assets";
+import Ratio from "../components/Ratio";
 
 const MainComicPage = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
-  const [selectedGenreIndex, setSelectedGenreIndex] = useState<number | null>(null);
-  const [selectedModeIndex, setSelectedModeIndex] = useState<number | null>(null);
+  const [selectedGenreIndex, setSelectedGenreIndex] = useState<number | null>(
+    null,
+  );
+  const [selectedModeIndex, setSelectedModeIndex] = useState<number | null>(
+    null,
+  );
   const [selectedArtIndex, setSelectedArtIndex] = useState<number | null>(null);
-  const [selectedPanelsIndex, setSelectedPanelsIndex] = useState<number | null>(null);
+  const [selectedPanelsIndex, setSelectedPanelsIndex] = useState<number | null>(
+    null,
+  );
+  const [selectedRatioIndex, setSelectedRatioIndex] = useState<number | null>(
+    null,
+  );
 
   const clickDropup = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -37,6 +47,10 @@ const MainComicPage = () => {
     setSelectedPanelsIndex(index);
     setOpenIndex(null);
   };
+  const selectRatio = (index: number) => {
+    setSelectedRatioIndex(index);
+    setOpenIndex(null);
+  };
 
   return (
     <div
@@ -47,8 +61,8 @@ const MainComicPage = () => {
         <img className="w-full h-full object-cover" src={Asset.Background} />
       </div>
 
-      <div className="absolute bottom-0 w-[50%] z-99">
-        <div className="flex items-end gap-2 mb-2 relative w-full">
+      <div className="absolute bottom-0 w-200 z-99">
+        <div className="flex items-end gap-2 mb-3 relative w-full">
           <GenreDropup
             open={openIndex === 0}
             selectedGenreIndex={selectedGenreIndex}
@@ -75,6 +89,13 @@ const MainComicPage = () => {
             selectedPanelsIndex={selectedPanelsIndex}
             onToggle={() => clickDropup(3)}
             onSelect={selectPanels}
+          />
+
+          <Ratio
+            open={openIndex === 4}
+            selectedRatioIndex={selectedRatioIndex}
+            onToggle={() => clickDropup(4)}
+            onSelect={selectRatio}
           />
         </div>
 
