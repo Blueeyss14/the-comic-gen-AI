@@ -24,13 +24,15 @@ const ComicMode = ({
             <div
               key={i}
               onClick={() => onSelect(i)}
-              className={`px-5 py-2 hover:bg-whitee/70 flex items-center gap-2 cursor-pointer ${
-                selectedModeIndex === i
-                  ? "bg-whitee/70"
-                  : "bg-transparent"
-              } text-whitee`}
+              className={`px-5 py-2 hover:bg-whitee/20 flex items-centercursor-pointer transition-all duration-200 text-whitee`}
             >
-              {item}
+              <div className="w-full flex items-center justify-between gap-3">
+                {item}
+                {selectedModeIndex === i && 
+                
+                <img src={Asset.Checklist} className="w-4 h-4 white-icon-filter" />
+                }
+              </div>
             </div>
           ))}
         </BoxContent>

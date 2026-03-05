@@ -1,7 +1,7 @@
 import { Asset } from "../../../../res/assets";
 import BoxContent from "../../../../shared/components/Box Content/BoxContent";
 import IconButton from "../../../../shared/components/Buttons/IconButton";
-import { artStyle} from "../../data/comicData";
+import { artStyle } from "../../data/comicData";
 
 interface ArtStyleProps {
   open: boolean;
@@ -24,13 +24,17 @@ const ArtStyle = ({
             <div
               key={i}
               onClick={() => onSelect(i)}
-              className={`px-5 py-2 hover:bg-whitee/70 flex items-center gap-2 cursor-pointer ${
-                selectedArtIndex === i
-                  ? "bg-whitee/70"
-                  : "bg-transparent"
-              } text-whitee`}
+              className={`px-5 py-2 hover:bg-whitee/20 flex items-centercursor-pointer transition-all duration-200 text-whitee`}
             >
-              {item}
+              <div className="w-full flex items-center justify-between gap-3">
+                {item}
+                {selectedArtIndex === i && (
+                  <img
+                    src={Asset.Checklist}
+                    className="w-4 h-4 white-icon-filter"
+                  />
+                )}
+              </div>
             </div>
           ))}
         </BoxContent>
@@ -40,9 +44,7 @@ const ArtStyle = ({
         rotation={`${open ? "rotate-180" : "rotate-0"}`}
         icon={Asset.ArrowUp}
         text={
-          selectedArtIndex !== null
-            ? artStyle[selectedArtIndex]
-            : "Art Style"
+          selectedArtIndex !== null ? artStyle[selectedArtIndex] : "Art Style"
         }
         onClick={onToggle}
       />

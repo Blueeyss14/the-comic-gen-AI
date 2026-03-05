@@ -1,20 +1,40 @@
 import { useState } from "react";
-import { Asset } from "../../../../res/assets";
 import MessageComic from "../components/MessageComic";
 import GenreDropup from "../components/GenreDropup";
 import ComicMode from "../components/ComicMode";
 import ArtStyle from "../components/Artstyle";
+import Panels from "../components/Panels";
+import { Asset } from "../../../../res/assets";
 
 const MainComicPage = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
-  const [selectedDropup, setSelectedDropup] = useState<number | null>(null);
+
+  const [selectedGenreIndex, setSelectedGenreIndex] = useState<number | null>(null);
+  const [selectedModeIndex, setSelectedModeIndex] = useState<number | null>(null);
+  const [selectedArtIndex, setSelectedArtIndex] = useState<number | null>(null);
+  const [selectedPanelsIndex, setSelectedPanelsIndex] = useState<number | null>(null);
 
   const clickDropup = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
-  const selectDropupFunc = (index: number) => {
-    setSelectedDropup(index);
+  const selectGenre = (index: number) => {
+    setSelectedGenreIndex(index);
+    setOpenIndex(null);
+  };
+
+  const selectMode = (index: number) => {
+    setSelectedModeIndex(index);
+    setOpenIndex(null);
+  };
+
+  const selectArt = (index: number) => {
+    setSelectedArtIndex(index);
+    setOpenIndex(null);
+  };
+
+  const selectPanels = (index: number) => {
+    setSelectedPanelsIndex(index);
     setOpenIndex(null);
   };
 
@@ -27,25 +47,34 @@ const MainComicPage = () => {
         <img className="w-full h-full object-cover" src={Asset.Background} />
       </div>
 
-      <div className="absolute bottom-0 w-[80%] z-99">
-        <div className="flex items-end gap-2 mb-2 relative">
+      <div className="absolute bottom-0 w-[50%] z-99">
+        <div className="flex items-end gap-2 mb-2 relative w-full">
           <GenreDropup
             open={openIndex === 0}
-            selectedGenreIndex={selectedDropup}
+            selectedGenreIndex={selectedGenreIndex}
             onToggle={() => clickDropup(0)}
-            onSelect={selectDropupFunc}
+            onSelect={selectGenre}
           />
+
           <ComicMode
             open={openIndex === 1}
-            selectedModeIndex={selectedDropup}
+            selectedModeIndex={selectedModeIndex}
             onToggle={() => clickDropup(1)}
-            onSelect={selectDropupFunc}
+            onSelect={selectMode}
           />
+
           <ArtStyle
             open={openIndex === 2}
-            selectedArtIndex={selectedDropup}
+            selectedArtIndex={selectedArtIndex}
             onToggle={() => clickDropup(2)}
-            onSelect={selectDropupFunc}
+            onSelect={selectArt}
+          />
+
+          <Panels
+            open={openIndex === 3}
+            selectedPanelsIndex={selectedPanelsIndex}
+            onToggle={() => clickDropup(3)}
+            onSelect={selectPanels}
           />
         </div>
 
