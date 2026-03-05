@@ -6,6 +6,7 @@ import ArtStyle from "../components/Artstyle";
 import Panels from "../components/Panels";
 import Ratio from "../components/Ratio";
 import BackgroundComic from "../../../../shared/components/Box Content/BackgroundComic";
+import ComicTitle from "../components/ComicTitle";
 
 const MainComicPage = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
@@ -65,6 +66,9 @@ const MainComicPage = () => {
         <BackgroundComic />
       </div>
       <div className="absolute w-full h-screen bg-black/30 ">
+        <div className="flex h-[80%] justify-center items-center">
+          <ComicTitle/>
+        </div>
         {/* <CarouselComic /> */}
       </div>
 
