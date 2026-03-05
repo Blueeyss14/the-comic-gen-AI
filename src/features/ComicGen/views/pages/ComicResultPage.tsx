@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useComicDownload } from "../../hooks/useComicDownload";
 import IconButton from "../../../../shared/components/Buttons/IconButton";
 import { Asset } from "../../../../res/assets";
@@ -16,6 +16,17 @@ const ComicResultPage = ({
 }: ComicResultPageProps) => {
   const { downloadAsPNG, downloadAsPDF } = useComicDownload();
   const [isDownloading, setIsDownloading] = useState(false);
+
+  const [maxSize, setMaxSize] = useState(window.innerWidth <= 840);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setMaxSize(window.innerWidth <= 840);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const handleDownloadPNG = async () => {
     if (!imageUrl) return;
@@ -50,9 +61,9 @@ const ComicResultPage = ({
   return (
     <div className="w-full h-full flex justify-center items-start">
       <div>
-        <div className="w-200 p-10 bg-grayy/60 border mt-10 border-whitee/20 backdrop-blur-[3px] rounded-[10px] mb-5 overflow-clip cursor-pointer whitespace-nowrap">
+        <div className="w-200 [@media(max-width:840px)]:w-[95vw] p-10 bg-grayy/60 border mt-10 border-whitee/20 backdrop-blur-[3px] rounded-[10px] mb-5 overflow-clip cursor-pointer whitespace-nowrap">
           {isGenerating ? (
-            <div>Loading...</div>
+            <div></div>
           ) : imageUrl ? (
             <div className="w-full h-100">
               <img
@@ -68,20 +79,20 @@ const ComicResultPage = ({
             <IconButton
               disabled={isDownloading || isGenerating}
               icon={Asset.CloudDownload}
-              text="Download PNG"
+              text={`${maxSize ? "PNG" : "Download PNG"}`}
               onClick={handleDownloadPNG}
             />
             <IconButton
               disabled={isDownloading || isGenerating}
               icon={Asset.CloudDownload}
-              text="Download PDF"
+              text={`${maxSize ? "PDF" : "Download PDF"}`}
               onClick={handleDownloadPDF}
             />
           </div>
           <IconButton
             disabled={isDownloading || isGenerating}
             icon={Asset.RegenerateIcon}
-            text="Regenerate"
+            text={`${maxSize ? "" : "Regenerate"}`}
             onClick={onRegenerate}
           />
         </div>

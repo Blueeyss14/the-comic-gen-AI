@@ -7,23 +7,19 @@ interface Props {
   isGenerating: boolean;
 }
 
-const MessageComic = ({ onGenerate, isGenerating }: Props) => {
+const ComicPrompter = ({ onGenerate, isGenerating }: Props) => {
   const [inputMessage, setInputMessage] = useState('');
 
   const handleSubmit = () => {
-    console.log('📮 Submit triggered, message:', inputMessage);
     if (!inputMessage.trim() || isGenerating) {
-      console.log('⚠️ Submit blocked - empty message or generating');
       return;
     }
     
-    console.log('✅ Calling onGenerate with:', inputMessage);
     onGenerate(inputMessage);
     setInputMessage('');
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    // Submit on Ctrl+Enter or Cmd+Enter
     if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
       handleSubmit();
     }
@@ -36,7 +32,7 @@ const MessageComic = ({ onGenerate, isGenerating }: Props) => {
           value={inputMessage}
           onChange={(e) => setInputMessage(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Describe your comic idea... (e.g., 'buatkan komik bahasa indonesia untuk iklan buku')"
+          placeholder="Describe your comic idea!"
           disabled={isGenerating}
           className="w-full resize-none overflow-y-auto max-h-40 min-h-15 scrollbar-none outline-none bg-transparent disabled:opacity-50"
           rows={2}
@@ -57,4 +53,4 @@ const MessageComic = ({ onGenerate, isGenerating }: Props) => {
   );
 };
 
-export default MessageComic;
+export default ComicPrompter;

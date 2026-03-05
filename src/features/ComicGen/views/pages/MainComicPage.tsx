@@ -1,5 +1,4 @@
 import { useState, useRef } from "react";
-import MessageComic from "../components/MessageComic";
 import GenreDropup from "../components/GenreDropup";
 import ComicMode from "../components/ComicMode";
 import ArtStyle from "../components/Artstyle";
@@ -10,6 +9,7 @@ import ComicTitle from "../components/ComicTitle";
 import ComicResultPage from "./ComicResultPage";
 import { useQwenGeneration } from "../../hooks/useQwenGeneration";
 import { genre, mode, artStyle, panels, ratio } from "../../data/comicData";
+import ComicPrompter from "../components/ComicPrompter";
 
 const MainComicPage = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
@@ -29,22 +29,13 @@ const MainComicPage = () => {
   );
 
   const comicResultRef = useRef<HTMLDivElement>(null);
-  const [generatedImageUrl, setGeneratedImageUrl] = useState<string | null>(null);
+  const [generatedImageUrl, setGeneratedImageUrl] = useState<string | null>(
+    null,
+  );
 
-  // Use Qwen generation hook
   const { isGenerating, generateComic } = useQwenGeneration();
 
   const handleGenerate = async (message: string) => {
-    console.log('🎯 Handle Generate called with message:', message);
-    console.log('Current selections:', {
-      genre: selectedGenreIndex,
-      mode: selectedModeIndex,
-      artStyle: selectedArtIndex,
-      panels: selectedPanelsIndex,
-      ratio: selectedRatioIndex,
-    });
-
-    // Validate all required fields
     if (
       selectedGenreIndex === null ||
       selectedModeIndex === null ||
@@ -52,12 +43,12 @@ const MainComicPage = () => {
       selectedPanelsIndex === null ||
       selectedRatioIndex === null
     ) {
-      console.warn('⚠️ Not all options selected!');
-      alert('Please select all options (Genre, Mode, Art Style, Panels, and Ratio) before generating.');
+      alert(
+        "Please select all options (Genre, Mode, Art Style, Panels, and Ratio) before generating.",
+      );
       return;
     }
 
-    // Build generation options
     const options = {
       genre: genre[selectedGenreIndex],
       mode: mode[selectedModeIndex],
@@ -67,26 +58,24 @@ const MainComicPage = () => {
       prompt: message,
     };
 
-    console.log('📦 Generated options:', options);
-
-    // Generate comic
-    console.log('🔄 Calling generateComic...');
     const imageUrl = await generateComic(options);
-    console.log('🖼️ Image URL result:', imageUrl);
 
     if (imageUrl) {
       setGeneratedImageUrl(imageUrl);
       setTimeout(() => {
-        comicResultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        comicResultRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
       }, 100);
     } else {
-      console.error('Failed to generate image');
+      console.error("Failed to generate image");
     }
   };
 
   const handleRegenerate = () => {
     setGeneratedImageUrl(null);
-    comicResultRef.current?.scrollIntoView({ behavior: 'smooth' });
+    comicResultRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   const clickDropup = (index: number) => {
@@ -112,7 +101,7 @@ const MainComicPage = () => {
     setSelectedPanelsIndex(index);
     setOpenIndex(null);
   };
-  
+
   const selectRatio = (index: number) => {
     setSelectedRatioIndex(index);
     setOpenIndex(null);
@@ -134,14 +123,18 @@ const MainComicPage = () => {
         <div className="flex h-full justify-center items-center">
           <ComicTitle />
         </div>
-        
-        <div ref={comicResultRef} className="w-full flex flex-col h-full mb-50">
-          <ComicResultPage 
-            imageUrl={generatedImageUrl}
-            onRegenerate={handleRegenerate}
-            isGenerating={isGenerating}
-          />
-        </div>
+        {generatedImageUrl && (
+          <div
+            ref={comicResultRef}
+            className="w-full flex flex-col h-full mb-50"
+          >
+            <ComicResultPage
+              imageUrl={generatedImageUrl}
+              onRegenerate={handleRegenerate}
+              isGenerating={isGenerating}
+            />
+          </div>
+        )}
       </div>
 
       <div className="fixed bottom-0 [@media(max-width:840px)]:w-[95%] w-200 z-99">
@@ -182,7 +175,10 @@ const MainComicPage = () => {
           />
         </div>
 
-        <MessageComic onGenerate={handleGenerate} isGenerating={isGenerating} />
+        <ComicPrompter
+          onGenerate={handleGenerate}
+          isGenerating={isGenerating}
+        />
       </div>
     </div>
   );
