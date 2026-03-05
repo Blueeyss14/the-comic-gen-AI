@@ -62,7 +62,7 @@ const MainComicPage = () => {
   return (
     <div
       onClick={() => setOpenIndex(null)}
-      className="w-full flex justify-center items-center bg-grayy relative"
+      className="w-full flex justify-center items-center bg-grayy relative overflow-hidden"
     >
       <div className="w-full h-screen">
         {/* <img className="w-full h-full object-cover" src={Asset.Background} /> */}
