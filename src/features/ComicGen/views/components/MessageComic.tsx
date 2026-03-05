@@ -3,7 +3,7 @@ import IconButton from "../../../../shared/components/Buttons/IconButton";
 
 const MessageComic = () => {
   return (
-    <div className="w-full bg-grayy/60 border border-whitee/20 backdrop-blur-[20px] rounded-2xl mb-5 py-3 px-5 text-white">
+    <div className="w-full bg-grayy/10 border border-whitee/20 backdrop-blur-[20px] rounded-2xl mb-5 py-3 px-5 text-white/80">
       <div>
         <textarea
           placeholder="Generate your comic!"

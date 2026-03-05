@@ -4,8 +4,8 @@ import GenreDropup from "../components/GenreDropup";
 import ComicMode from "../components/ComicMode";
 import ArtStyle from "../components/Artstyle";
 import Panels from "../components/Panels";
-import { Asset } from "../../../../res/assets";
 import Ratio from "../components/Ratio";
+import BackgroundComic from "../../../../shared/components/Box Content/BackgroundComic";
 
 const MainComicPage = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
@@ -58,11 +58,18 @@ const MainComicPage = () => {
       className="w-full flex justify-center items-center bg-grayy relative"
     >
       <div className="w-full h-screen">
-        <img className="w-full h-full object-cover" src={Asset.Background} />
+        {/* <img className="w-full h-full object-cover" src={Asset.Background} /> */}
       </div>
 
-      <div className="absolute bottom-0 w-200 z-99">
-        <div className="flex items-end gap-2 mb-3 relative w-full">
+      <div className="absolute w-full h-screen">
+        <BackgroundComic />
+      </div>
+      <div className="absolute w-full h-screen bg-black/30 ">
+        {/* <CarouselComic /> */}
+      </div>
+
+      <div className="absolute bottom-0 [@media(max-width:840px)]:w-[95%] w-200 z-99">
+        <div className="flex items-end gap-2 mb-3 relative w-full flex-wrap">
           <GenreDropup
             open={openIndex === 0}
             selectedGenreIndex={selectedGenreIndex}
