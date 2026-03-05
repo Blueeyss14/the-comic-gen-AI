@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import { config } from '../../../config/config';
 
 interface GenerationOptions {
   genre: string;
@@ -26,7 +27,7 @@ export function useQwenGeneration(): UseQwenGenerationReturn {
 
     try {
       const fullPrompt = buildComicPrompt(options);
-      const apiKey = import.meta.env.VITE_QWEN_API_KEY;
+      const apiKey = config.api;
 
       if (!apiKey) {
         throw new Error('Qwen API key not configured');
