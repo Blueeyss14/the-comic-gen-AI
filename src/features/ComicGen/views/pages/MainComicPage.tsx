@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import MessageComic from "../components/MessageComic";
 import GenreDropup from "../components/GenreDropup";
 import ComicMode from "../components/ComicMode";
@@ -24,6 +24,12 @@ const MainComicPage = () => {
   const [selectedRatioIndex, setSelectedRatioIndex] = useState<number | null>(
     null,
   );
+
+  const comicResultRef = useRef<HTMLDivElement>(null);
+
+  const handleGenerate = () => {
+    comicResultRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   const clickDropup = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -65,14 +71,16 @@ const MainComicPage = () => {
       <div className="absolute w-full h-screen">
         <BackgroundComic />
       </div>
-      <div className="absolute w-full h-screen bg-black/30 ">
-        <div className="flex h-[80%] justify-center items-center">
-          <ComicTitle/>
+      <div className="absolute w-full h-screen bg-black/30">
+        <div className="flex h-full justify-center items-center">
+          <ComicTitle />
         </div>
+        <div ref={comicResultRef} className="w-full h-full bg-black/30"></div>
+        {/* <div className="w-full h-[100%] bg-amber-200"></div> */}
         {/* <CarouselComic /> */}
       </div>
 
-      <div className="absolute bottom-0 [@media(max-width:840px)]:w-[95%] w-200 z-99">
+      <div className="fixed bottom-0 [@media(max-width:840px)]:w-[95%] w-200 z-99">
         <div className="flex items-end gap-2 mb-3 relative w-full flex-wrap">
           <GenreDropup
             open={openIndex === 0}
@@ -110,7 +118,7 @@ const MainComicPage = () => {
           />
         </div>
 
-        <MessageComic />
+        <MessageComic onGenerate={handleGenerate} />
       </div>
     </div>
   );

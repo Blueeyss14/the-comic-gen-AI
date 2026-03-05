@@ -104,7 +104,7 @@ const ComicTitle = () => {
         }
       `}</style>
 
-      <div className="comic-title-wrap">
+      <div className="comic-title-wrap mb-40">
         <div className="comic-title-badge">
           <span className="badge-dot" />
           Powered by Qwen

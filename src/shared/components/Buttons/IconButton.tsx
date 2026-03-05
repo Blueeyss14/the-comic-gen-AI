@@ -18,7 +18,7 @@ const IconButton = ({
   return (
     <div
       onClick={onClick}
-      className={`${fontWeight} whitespace-nowrap bg-grayy/60 hover:bg-whitee/20 border border-whitee/20 backdrop-blur-[20px] text-whitee cursor-pointer rounded-[10px] flex gap-2 items-center justify-between w-fit py-1 px-4`}
+      className={`${fontWeight} text-[0.85rem] whitespace-nowrap bg-grayy/60 hover:bg-whitee/20 border border-whitee/20 backdrop-blur-[10px] text-whitee cursor-pointer rounded-[10px] flex gap-2 items-center justify-between w-fit py-1.5 px-4`}
     >
       <p>{text}</p>
       <img
