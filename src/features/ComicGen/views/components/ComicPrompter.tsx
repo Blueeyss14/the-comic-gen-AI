@@ -40,6 +40,7 @@ const ComicPrompter = ({ onGenerate, isGenerating }: Props) => {
         <div className="flex justify-end mt-3">
           <div className={`${isGenerating ? 'opacity-50 cursor-not-allowed' : ''}`}>
             <IconButton
+            padding='py-2.5 px-4'
               onClick={handleSubmit}
               text={isGenerating ? "Generating..." : "Generate"}
               icon={Asset.Send}
