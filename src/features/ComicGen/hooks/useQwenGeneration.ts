@@ -27,11 +27,7 @@ export function useQwenGeneration(): UseQwenGenerationReturn {
 
     try {
       const fullPrompt = buildComicPrompt(options);
-      const apiKey = config.api;
 
-      if (!apiKey) {
-        throw new Error('Qwen API key not configured');
-      }
       const requestBody = {
         model: 'qwen-image-max',
         input: {
@@ -52,15 +48,25 @@ export function useQwenGeneration(): UseQwenGenerationReturn {
         }
       };
 
-      const response = await fetch('/api/v1/services/aigc/multimodal-generation/generation', {
+      const endpoint = import.meta.env.PROD
+        ? '/api/generate'
+        : '/api/v1/services/aigc/multimodal-generation/generation';
+
+      const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+      };
+
+      if (!import.meta.env.PROD) {
+        const apiKey = config.api;
+        if (!apiKey) throw new Error('Qwen API key not configured');
+        headers['Authorization'] = `Bearer ${apiKey}`;
+      }
+
+      const response = await fetch(endpoint, {
         method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${apiKey}`,
-          'Content-Type': 'application/json',
-        },
+        headers,
         body: JSON.stringify(requestBody),
       });
-
 
       const data = await response.json();
 
@@ -73,7 +79,7 @@ export function useQwenGeneration(): UseQwenGenerationReturn {
       )?.image ?? null;
 
       if (!imageUrl) {
-        throw new Error('No image in response. Check console for full response.');
+        throw new Error('No image in response.');
       }
 
       return imageUrl;
