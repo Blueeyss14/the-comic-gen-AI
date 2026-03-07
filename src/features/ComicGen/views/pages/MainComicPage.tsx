@@ -142,10 +142,10 @@ const MainComicPage = () => {
     >
       <div className="w-full h-screen" />
 
-      <div className="absolute w-full h-dvh">
+      <div className="absolute w-full h-screen">
         <BackgroundComic />
       </div>
-      <div className="absolute w-full h-dvh bg-black/30 overflow-y-auto">
+      <div className="absolute w-full h-screen bg-black/30 overflow-y-auto">
         <div className="flex h-full justify-center items-center">
           <ComicTitle />
         </div>
