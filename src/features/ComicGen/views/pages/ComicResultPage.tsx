@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useComicDownload } from "../../hooks/useComicDownload";
 import IconButton from "../../../../shared/components/Buttons/IconButton";
 import { Asset } from "../../../../res/assets";
+import LoadingButton from "../../../../shared/components/Buttons/LoadingButton";
 
 interface ComicResultPageProps {
   imageUrl: string | null;
@@ -15,7 +16,10 @@ const ComicResultPage = ({
   isGenerating,
 }: ComicResultPageProps) => {
   const { downloadAsPNG, downloadAsPDF } = useComicDownload();
+
   const [isDownloading, setIsDownloading] = useState(false);
+  const [isPNGDownloading, setIsPNGDownloading] = useState(false);
+  const [isPDFDownloading, setIsPDFDownloading] = useState(false);
 
   const [maxSize, setMaxSize] = useState(window.innerWidth <= 840);
 
@@ -32,12 +36,15 @@ const ComicResultPage = ({
     if (!imageUrl) return;
 
     setIsDownloading(true);
+    setIsPNGDownloading(true);
+
     try {
       await downloadAsPNG(imageUrl, "my-comic");
     } catch (error) {
       console.error("Download failed:", error);
     } finally {
       setIsDownloading(false);
+      setIsPNGDownloading(false);
     }
   };
 
@@ -45,12 +52,15 @@ const ComicResultPage = ({
     if (!imageUrl) return;
 
     setIsDownloading(true);
+    setIsPDFDownloading(true);
+
     try {
       await downloadAsPDF(imageUrl, "my-comic");
     } catch (error) {
       console.error("Download failed:", error);
     } finally {
       setIsDownloading(false);
+      setIsPDFDownloading(false);
     }
   };
 
@@ -74,22 +84,50 @@ const ComicResultPage = ({
             </div>
           ) : null}
         </div>
+
         <div className="flex items-center justify-between w-full">
           <div className="flex gap-3">
-            <IconButton
-              disabled={isDownloading || isGenerating}
-              icon={Asset.CloudDownload}
-              text={`${maxSize ? "PNG" : "Download PNG"}`}
-              onClick={handleDownloadPNG}
-            />
-            <IconButton
-              disabled={isDownloading || isGenerating}
-              icon={Asset.CloudDownload}
-              text={`${maxSize ? "PDF" : "Download PDF"}`}
-              onClick={handleDownloadPDF}
-            />
+            {isPNGDownloading ? (
+              <LoadingButton
+                padding="py-2.5 px-4"
+                onClick={handleDownloadPNG}
+                text={`${maxSize ? "..." : "Downloading..."}`}
+                icon={Asset.Send}
+                iconSize="w-4 h-4"
+                fontWeight="font-semibold"
+              />
+            ) : (
+              <IconButton
+                padding="py-2.5 px-4"
+                disabled={isDownloading || isGenerating}
+                icon={Asset.CloudDownload}
+                text={`${maxSize ? "PNG" : "Download PNG"}`}
+                onClick={handleDownloadPNG}
+              />
+            )}
+
+            {isPDFDownloading ? (
+              <LoadingButton
+                padding="py-2.5 px-4"
+                onClick={handleDownloadPDF}
+                text={`${maxSize ? "..." : "Downloading..."}`}
+                icon={Asset.Send}
+                iconSize="w-4 h-4"
+                fontWeight="font-semibold"
+              />
+            ) : (
+              <IconButton
+                padding="py-2.5 px-4"
+                disabled={isDownloading || isGenerating}
+                icon={Asset.CloudDownload}
+                text={`${maxSize ? "PDF" : "Download PDF"}`}
+                onClick={handleDownloadPDF}
+              />
+            )}
           </div>
+
           <IconButton
+            padding="py-2.5 px-4"
             disabled={isDownloading || isGenerating}
             icon={Asset.RegenerateIcon}
             text={`${maxSize ? "" : "Regenerate"}`}

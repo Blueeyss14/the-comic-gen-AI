@@ -36,18 +36,18 @@ const MainComicPage = () => {
   const { isGenerating, generateComic } = useQwenGeneration();
 
   const handleGenerate = async (message: string) => {
-    if (
-      selectedGenreIndex === null ||
-      selectedModeIndex === null ||
-      selectedArtIndex === null ||
-      selectedPanelsIndex === null ||
-      selectedRatioIndex === null
-    ) {
-      alert(
-        "Please select all options (Genre, Mode, Art Style, Panels, and Ratio) before generating.",
-      );
-      return;
-    }
+      if (
+        selectedGenreIndex === null ||
+        selectedModeIndex === null ||
+        selectedArtIndex === null ||
+        selectedPanelsIndex === null ||
+        selectedRatioIndex === null
+      ) {
+        alert(
+          "Please select all options (Genre, Mode, Art Style, Panels, and Ratio) before generating.",
+        );
+        return;
+      }
 
     const options = {
       genre: genre[selectedGenreIndex],
@@ -116,14 +116,14 @@ const MainComicPage = () => {
         {/* <img className="w-full h-full object-cover" src={Asset.Background} /> */}
       </div>
 
-      <div className="absolute w-full h-screen">
+      <div className="absolute w-full h-dvh">
         <BackgroundComic />
       </div>
-      <div className="absolute w-full h-screen bg-black/30 overflow-y-auto">
+      <div className="absolute w-full h-dvh bg-black/30 overflow-y-auto">
         <div className="flex h-full justify-center items-center">
           <ComicTitle />
         </div>
-        {generatedImageUrl && (
+        {generatedImageUrl && !isGenerating && (
           <div
             ref={comicResultRef}
             className="w-full flex flex-col h-full mb-50"

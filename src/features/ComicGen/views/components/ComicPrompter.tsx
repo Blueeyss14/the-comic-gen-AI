@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState } from "react";
 import { Asset } from "../../../../res/assets";
 import IconButton from "../../../../shared/components/Buttons/IconButton";
+import LoadingButton from "../../../../shared/components/Buttons/LoadingButton";
 
 interface Props {
   onGenerate: (message: string) => void;
@@ -8,19 +9,19 @@ interface Props {
 }
 
 const ComicPrompter = ({ onGenerate, isGenerating }: Props) => {
-  const [inputMessage, setInputMessage] = useState('');
+  const [inputMessage, setInputMessage] = useState("");
 
   const handleSubmit = () => {
     if (!inputMessage.trim() || isGenerating) {
       return;
     }
-    
+
     onGenerate(inputMessage);
-    setInputMessage('');
+    setInputMessage("");
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+    if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
       handleSubmit();
     }
   };
@@ -38,15 +39,28 @@ const ComicPrompter = ({ onGenerate, isGenerating }: Props) => {
           rows={2}
         />
         <div className="flex justify-end mt-3">
-          <div className={`${isGenerating ? 'opacity-50 cursor-not-allowed' : ''}`}>
-            <IconButton
-            padding='py-2.5 px-4'
-              onClick={handleSubmit}
-              text={isGenerating ? "Generating..." : "Generate"}
-              icon={Asset.Send}
-              iconSize="w-4 h-4"
-              fontWeight="font-semibold"
-            />
+          <div
+            className={`${isGenerating ? "opacity-50 cursor-not-allowed" : ""}`}
+          >
+            {!isGenerating ? (
+              <IconButton
+                padding="py-2.5 px-4"
+                onClick={handleSubmit}
+                text="Generate"
+                icon={Asset.Send}
+                iconSize="w-4 h-4"
+                fontWeight="font-semibold"
+              />
+            ) : (
+              <LoadingButton
+                padding="py-2.5 px-4"
+                onClick={handleSubmit}
+                text="Generating..."
+                icon={Asset.Send}
+                iconSize="w-4 h-4"
+                fontWeight="font-semibold"
+              />
+            )}
           </div>
         </div>
       </div>

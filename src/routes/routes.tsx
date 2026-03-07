@@ -1,12 +1,13 @@
 import { Routes, Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
 
-const MainComicPage = lazy(() => import("../features/ComicGen/views/pages/MainComicPage"));
-
+const MainComicPage = lazy(
+  () => import("../features/ComicGen/views/pages/MainComicPage"),
+);
 
 const LoadingSpinner = () => (
   <div className="flex items-center justify-center h-screen">
-    <div className="w-12 h-12 border-4 border-grayy border-dotted rounded-full animate-spin"></div>
+    <div className="w-4 h-4 border-2 border-gray-200 border-t-grayy rounded-full animate-spin" />
   </div>
 );
 
@@ -17,7 +18,7 @@ const AppRoutes = () => {
         <Route path="/" element={<MainComicPage />} />
       </Routes>
     </Suspense>
-  )
-}
+  );
+};
 
-export default AppRoutes
+export default AppRoutes;
