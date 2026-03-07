@@ -33,21 +33,25 @@ const MainComicPage = () => {
     null,
   );
 
+  const [lastPrompt, setLastPrompt] = useState<string>("");
+
   const { isGenerating, generateComic } = useQwenGeneration();
 
   const handleGenerate = async (message: string) => {
-      if (
-        selectedGenreIndex === null ||
-        selectedModeIndex === null ||
-        selectedArtIndex === null ||
-        selectedPanelsIndex === null ||
-        selectedRatioIndex === null
-      ) {
-        alert(
-          "Please select all options (Genre, Mode, Art Style, Panels, and Ratio) before generating.",
-        );
-        return;
-      }
+    if (
+      selectedGenreIndex === null ||
+      selectedModeIndex === null ||
+      selectedArtIndex === null ||
+      selectedPanelsIndex === null ||
+      selectedRatioIndex === null
+    ) {
+      alert(
+        "Please select all options (Genre, Mode, Art Style, Panels, and Ratio) before generating.",
+      );
+      return;
+    }
+
+    setLastPrompt(message);
 
     const options = {
       genre: genre[selectedGenreIndex],
@@ -68,14 +72,42 @@ const MainComicPage = () => {
           block: "center",
         });
       }, 100);
-    } else {
-      console.error("Failed to generate image");
     }
   };
 
-  const handleRegenerate = () => {
+  const handleRegenerate = async () => {
+    if (
+      selectedGenreIndex === null ||
+      selectedModeIndex === null ||
+      selectedArtIndex === null ||
+      selectedPanelsIndex === null ||
+      selectedRatioIndex === null ||
+      !lastPrompt
+    )
+      return;
+
     setGeneratedImageUrl(null);
-    comicResultRef.current?.scrollIntoView({ behavior: "smooth" });
+
+    const options = {
+      genre: genre[selectedGenreIndex],
+      mode: mode[selectedModeIndex],
+      artStyle: artStyle[selectedArtIndex],
+      panels: panels[selectedPanelsIndex],
+      ratio: ratio[selectedRatioIndex],
+      prompt: lastPrompt,
+    };
+
+    const imageUrl = await generateComic(options);
+
+    if (imageUrl) {
+      setGeneratedImageUrl(imageUrl);
+      setTimeout(() => {
+        comicResultRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      }, 100);
+    }
   };
 
   const clickDropup = (index: number) => {
@@ -86,22 +118,18 @@ const MainComicPage = () => {
     setSelectedGenreIndex(index);
     setOpenIndex(null);
   };
-
   const selectMode = (index: number) => {
     setSelectedModeIndex(index);
     setOpenIndex(null);
   };
-
   const selectArt = (index: number) => {
     setSelectedArtIndex(index);
     setOpenIndex(null);
   };
-
   const selectPanels = (index: number) => {
     setSelectedPanelsIndex(index);
     setOpenIndex(null);
   };
-
   const selectRatio = (index: number) => {
     setSelectedRatioIndex(index);
     setOpenIndex(null);
@@ -112,9 +140,7 @@ const MainComicPage = () => {
       onClick={() => setOpenIndex(null)}
       className="w-full flex justify-center items-center bg-grayy relative"
     >
-      <div className="w-full h-screen">
-        {/* <img className="w-full h-full object-cover" src={Asset.Background} /> */}
-      </div>
+      <div className="w-full h-screen" />
 
       <div className="absolute w-full h-dvh">
         <BackgroundComic />
@@ -123,7 +149,7 @@ const MainComicPage = () => {
         <div className="flex h-full justify-center items-center">
           <ComicTitle />
         </div>
-        {generatedImageUrl && !isGenerating && (
+        {(generatedImageUrl && !isGenerating) && (
           <div
             ref={comicResultRef}
             className="w-full flex flex-col h-full mb-50"
@@ -145,28 +171,24 @@ const MainComicPage = () => {
             onToggle={() => clickDropup(0)}
             onSelect={selectGenre}
           />
-
           <ComicMode
             open={openIndex === 1}
             selectedModeIndex={selectedModeIndex}
             onToggle={() => clickDropup(1)}
             onSelect={selectMode}
           />
-
           <ArtStyle
             open={openIndex === 2}
             selectedArtIndex={selectedArtIndex}
             onToggle={() => clickDropup(2)}
             onSelect={selectArt}
           />
-
           <Panels
             open={openIndex === 3}
             selectedPanelsIndex={selectedPanelsIndex}
             onToggle={() => clickDropup(3)}
             onSelect={selectPanels}
           />
-
           <Ratio
             open={openIndex === 4}
             selectedRatioIndex={selectedRatioIndex}

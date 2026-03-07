@@ -20,24 +20,28 @@ const ComicResultPage = ({
   const [isDownloading, setIsDownloading] = useState(false);
   const [isPNGDownloading, setIsPNGDownloading] = useState(false);
   const [isPDFDownloading, setIsPDFDownloading] = useState(false);
+  const [isRegenerating, setIsRegenerating] = useState(false);
 
   const [maxSize, setMaxSize] = useState(window.innerWidth <= 840);
+
+  useEffect(() => {
+    if (!isGenerating) {
+      setIsRegenerating(false);
+    }
+  }, [isGenerating]);
 
   useEffect(() => {
     const handleResize = () => {
       setMaxSize(window.innerWidth <= 840);
     };
-
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const handleDownloadPNG = async () => {
     if (!imageUrl) return;
-
     setIsDownloading(true);
     setIsPNGDownloading(true);
-
     try {
       await downloadAsPNG(imageUrl, "my-comic");
     } catch (error) {
@@ -50,10 +54,8 @@ const ComicResultPage = ({
 
   const handleDownloadPDF = async () => {
     if (!imageUrl) return;
-
     setIsDownloading(true);
     setIsPDFDownloading(true);
-
     try {
       await downloadAsPDF(imageUrl, "my-comic");
     } catch (error) {
@@ -62,6 +64,11 @@ const ComicResultPage = ({
       setIsDownloading(false);
       setIsPDFDownloading(false);
     }
+  };
+
+  const handleRegenerateClick = () => {
+    setIsRegenerating(true);
+    onRegenerate();
   };
 
   if (!imageUrl && !isGenerating) {
@@ -126,13 +133,24 @@ const ComicResultPage = ({
             )}
           </div>
 
-          <IconButton
-            padding="py-2.5 px-4"
-            disabled={isDownloading || isGenerating}
-            icon={Asset.RegenerateIcon}
-            text={`${maxSize ? "" : "Regenerate"}`}
-            onClick={onRegenerate}
-          />
+          {isRegenerating ? (
+            <LoadingButton
+              padding="py-2.5 px-4"
+              onClick={handleRegenerateClick}
+              text={`${maxSize ? "..." : "Regenerating..."}`}
+              icon={Asset.Send}
+              iconSize="w-4 h-4"
+              fontWeight="font-semibold"
+            />
+          ) : (
+            <IconButton
+              padding="py-2.5 px-4"
+              disabled={isDownloading || isGenerating}
+              icon={Asset.RegenerateIcon}
+              text={`${maxSize ? "" : "Regenerate"}`}
+              onClick={handleRegenerateClick}
+            />
+          )}
         </div>
       </div>
     </div>
