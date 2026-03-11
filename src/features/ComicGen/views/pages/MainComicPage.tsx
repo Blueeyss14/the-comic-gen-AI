@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import { Toaster } from "react-hot-toast";
 import GenreDropup from "../components/GenreDropup";
 import ComicMode from "../components/ComicMode";
 import ArtStyle from "../components/Artstyle";
@@ -10,6 +11,7 @@ import ComicResultPage from "./ComicResultPage";
 import { useQwenGeneration } from "../../hooks/useQwenGeneration";
 import { genre, mode, artStyle, panels, ratio } from "../../data/comicData";
 import ComicPrompter from "../components/ComicPrompter";
+import { showError } from "../../../../utils/toast";
 
 const MainComicPage = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
@@ -45,9 +47,7 @@ const MainComicPage = () => {
       selectedPanelsIndex === null ||
       selectedRatioIndex === null
     ) {
-      alert(
-        "Please select all options (Genre, Mode, Art Style, Panels, and Ratio) before generating.",
-      );
+      showError("Please select all options");
       return;
     }
 
@@ -140,6 +140,7 @@ const MainComicPage = () => {
       onClick={() => setOpenIndex(null)}
       className="w-full flex justify-center items-center bg-grayy relative"
     >
+      <Toaster position="top-right" />
       <div className="w-full h-screen" />
 
       <div className="absolute w-full h-screen">
