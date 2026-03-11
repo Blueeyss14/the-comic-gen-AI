@@ -1,5 +1,10 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
+const BANNED_KEYWORDS = [
+  'porn', 'nude', 'naked', 'nsfw', 'sex', 'explicit',
+  'telanjang', 'hentai', 'xxx','intercourse', 'erotic', 'fetish'
+];
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method not allowed' });
@@ -8,6 +13,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const apiKey = process.env.QWEN_API_KEY;
   if (!apiKey) {
     return res.status(500).json({ message: 'API key not configured on server' });
+  }
+
+  const prompt = req.body?.input?.messages?.[0]?.content?.[0]?.text?.toLowerCase() || '';
+  const isBanned = BANNED_KEYWORDS.some(word => prompt.includes(word));
+
+  if (isBanned) {
+    return res.status(400).json({ message: 'Prompt contains inappropriate content.' });
   }
 
   try {
