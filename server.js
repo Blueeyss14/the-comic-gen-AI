@@ -37,7 +37,7 @@ app.post('/api/generate', async (req, res) => {
   }
 });
 
-app.all('*', (req, res) => {
+app.use((req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
