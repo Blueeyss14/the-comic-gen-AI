@@ -27,6 +27,7 @@ const ComicPrompter = ({ onGenerate, isGenerating }: Props) => {
     }
 
     console.log('maintenance');
+    console.log(onGenerate);
     setInputMessage("");
   };
 
