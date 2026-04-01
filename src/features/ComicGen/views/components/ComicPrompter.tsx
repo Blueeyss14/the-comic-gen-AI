@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Asset } from "../../../../res/assets";
 import IconButton from "../../../../shared/components/Buttons/IconButton";
-import LoadingButton from "../../../../shared/components/Buttons/LoadingButton";
+// import LoadingButton from "../../../../shared/components/Buttons/LoadingButton";
 
 interface Props {
   onGenerate: (message: string) => void;
@@ -17,6 +17,15 @@ const ComicPrompter = ({ onGenerate, isGenerating }: Props) => {
     }
 
     onGenerate(inputMessage);
+    setInputMessage("");
+  };
+
+  const maintenance = () => {
+    if (!inputMessage.trim()) {
+      return;
+    }
+
+    console.log('maintenance');
     setInputMessage("");
   };
 
@@ -42,7 +51,18 @@ const ComicPrompter = ({ onGenerate, isGenerating }: Props) => {
           <div
             className={`${isGenerating ? "opacity-50 cursor-not-allowed" : ""}`}
           >
-            {!isGenerating ? (
+            <IconButton
+              padding="py-2.5 px-4"
+              onClick={maintenance}
+              text="Generate"
+              icon={Asset.Send}
+              iconSize="w-4 h-4"
+              fontWeight="font-semibold"
+              disabled={true}
+            />
+
+            {/* MAINTENANCE */}
+            {/* {!isGenerating ? (
               <IconButton
                 padding="py-2.5 px-4"
                 onClick={handleSubmit}
@@ -60,7 +80,7 @@ const ComicPrompter = ({ onGenerate, isGenerating }: Props) => {
                 iconSize="w-4 h-4"
                 fontWeight="font-semibold"
               />
-            )}
+            )} */}
           </div>
         </div>
       </div>

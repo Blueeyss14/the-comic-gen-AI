@@ -5,6 +5,7 @@ import Checklist from '../../assets/icons/checklist.png'
 import Send from '../../assets/icons/send.png'
 import CloudDownload from '../../assets/icons/cloud-download.png'
 import RegenerateIcon from '../../assets/icons/regenerate.png'
+import MaintenanceIcon from'../../assets/icons/maintenance.png'
 
 export const Asset = {
     // Background,
@@ -13,5 +14,6 @@ export const Asset = {
     Send,
     // Comic1,
     CloudDownload,
-    RegenerateIcon
+    RegenerateIcon,
+    MaintenanceIcon
 }

@@ -12,6 +12,7 @@ import { useQwenGeneration } from "../../hooks/useQwenGeneration";
 import { genre, mode, artStyle, panels, ratio } from "../../data/comicData";
 import ComicPrompter from "../components/ComicPrompter";
 import { showError } from "../../../../utils/toast";
+import Maintenance from "../../../../shared/components/maintenance/Maintenance";
 
 const MainComicPage = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
@@ -146,11 +147,19 @@ const MainComicPage = () => {
       <div className="absolute w-full h-screen">
         <BackgroundComic />
       </div>
+      
+      {/* MAINTENANCE */}
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="absolute w-full h-screen z-999999 flex justify-end items-start pointer-events-none"
+      >
+        <Maintenance />
+      </div>
       <div className="absolute w-full h-screen bg-black/30 overflow-y-auto">
         <div className="flex h-full justify-center items-center">
           <ComicTitle />
         </div>
-        {(generatedImageUrl && !isGenerating) && (
+        {generatedImageUrl && !isGenerating && (
           <div
             ref={comicResultRef}
             className="w-full flex flex-col h-full mb-50"
