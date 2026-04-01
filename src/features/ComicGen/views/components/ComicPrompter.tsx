@@ -11,14 +11,15 @@ interface Props {
 const ComicPrompter = ({ onGenerate, isGenerating }: Props) => {
   const [inputMessage, setInputMessage] = useState("");
 
-  const handleSubmit = () => {
-    if (!inputMessage.trim() || isGenerating) {
-      return;
-    }
+  //MAINTENANCE
+  // const handleSubmit = () => {
+  //   if (!inputMessage.trim() || isGenerating) {
+  //     return;
+  //   }
 
-    onGenerate(inputMessage);
-    setInputMessage("");
-  };
+  //   onGenerate(inputMessage);
+  //   setInputMessage("");
+  // };
 
   const maintenance = () => {
     if (!inputMessage.trim()) {
@@ -29,11 +30,14 @@ const ComicPrompter = ({ onGenerate, isGenerating }: Props) => {
     setInputMessage("");
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
-      handleSubmit();
-    }
-  };
+
+  // const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  //   if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+  // handleSubmit();
+
+  //     console.log('maintenance');
+  //   }
+  // };
 
   return (
     <div className="w-full bg-grayy/10 border border-whitee/20 backdrop-blur-[10px] rounded-2xl mb-5 py-3 px-5 text-white/80">
@@ -41,7 +45,8 @@ const ComicPrompter = ({ onGenerate, isGenerating }: Props) => {
         <textarea
           value={inputMessage}
           onChange={(e) => setInputMessage(e.target.value)}
-          onKeyDown={handleKeyDown}
+          //MAINTENANCE
+          // onKeyDown={handleKeyDown}
           placeholder="Describe your comic idea!"
           disabled={isGenerating}
           className="w-full resize-none overflow-y-auto max-h-40 min-h-15 scrollbar-none outline-none bg-transparent disabled:opacity-50"
